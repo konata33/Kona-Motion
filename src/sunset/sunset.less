@@ -1,0 +1,53 @@
+@class-prefix: ~'kona-sunset';
+
+.@{class-prefix} {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: #d6641fbf;
+  border-radius: 20px;
+
+  // 添加模糊边缘效果
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: inherit;
+    border-radius: inherit;
+    filter: blur(5px);
+    z-index: 0;
+  }
+
+  &__background {
+    width: 60% !important;
+    height: auto !important;
+    max-height: 60% !important;
+    object-fit: contain !important;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    border-radius: inherit;
+    background: linear-gradient(
+      to top, 
+       #e0673b 15%,
+        #e7892d 35%, 
+        #d78e5d 55%,
+         #efac78 75%, 
+         #f3a862 85%,
+          #f6caa6 100%);
+    mix-blend-mode: inherit;
+  }
+}

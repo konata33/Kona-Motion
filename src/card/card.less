@@ -1,0 +1,104 @@
+:root {
+  --card-width: 15rem;
+  --card-height: 20rem;
+  --card-radius: 1rem;
+  --card-bg: #1a1a1a;
+  
+  --icon-size: 5rem;
+  --icon-radius: 50%;
+  
+  --title-size: 1.3rem;
+  --name-size: 1.6rem;
+  --text-color: #ffffff;
+}
+
+.waveCard {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  background: var(--card-bg);
+  overflow: hidden;
+  
+  &-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    
+    .wave {
+      position: absolute;
+      width: 200%;    
+      height: 200%;   
+      left: -50%;    
+      top: -120%;     
+      border-radius: 40%;
+      
+       animation: wave 15s infinite linear;
+      
+      &:nth-child(1) {
+        transform: translate(0%, -150%) scale(1.1);  // 向左下移动
+      }
+      
+      &:nth-child(2) {
+        transform: translate(0%, -135%) scale(1.2);  // 向左下移动
+      }
+      
+      &:nth-child(3) {
+        transform: translate(0%, -150%) scale(1.3);    // 向下移动
+      }
+      
+      &:nth-child(4) {
+        transform: translate(0%, -140%) scale(1.4);   // 向右下移动
+      }
+    }
+  }
+  
+  // 内容布局
+  &-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--text-color);
+  }
+  
+  &-icon {
+    width: calc(var(--card-width) * 0.5);
+    height: calc(var(--card-width) * 0.5);
+    border-radius: var(--icon-radius);
+    margin-bottom:2.5rem;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  &-title {
+    font-size: var(--title-size);
+    margin-bottom: 0.3rem;
+    opacity: 0.75;
+  }
+  
+  &-name {
+    font-size: var(--name-size);
+    font-weight: 500;
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

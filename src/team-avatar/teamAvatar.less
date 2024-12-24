@@ -1,0 +1,176 @@
+:root {
+  --team-avatar-size: 11.25rem;  
+  --main-logo-size: 60%;
+  --members-container-size: 80%;
+  --member-size: 2rem;           
+  --member-gap: 0.5rem;         
+  --glow-size: 140%;
+  --blur-radius: 1.875rem;    
+  --transition-duration: 0.5s;
+  --hover-scale: 1.5;
+  
+  --glow-color-primary: rgba(169, 85, 247, 0.994);
+  --glow-color-secondary: rgba(138, 92, 246, 0.927);
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+.kona-team-avatar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    .kona-team-avatar__main {
+      opacity: 0.3;
+      transform: scale(0.95);
+      z-index: 1;
+    }
+
+    .kona-team-avatar__members-container {
+      z-index: 3;
+    }
+
+    .kona-team-avatar__member {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  &__main {
+    position: relative;
+    z-index: 2;
+    width: var(--main-logo-size) !important;
+    height: var(--main-logo-size) !important;
+    margin: auto;
+    transition: all var(--transition-duration) ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__members-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--members-container-size);
+    height: var(--members-container-size);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-size, var(--member-gap));
+    padding: 0.5rem;
+    box-sizing: border-box;
+    z-index: 1;
+    align-content: center;
+    justify-content: center;
+    transition: z-index 0s;
+  }
+
+  &__member {
+    position: relative;
+    width: var(--member-size, 2rem);
+    height: var(--member-size, 2rem);
+    min-width: var(--member-size, 2rem);
+    min-height: var(--member-size, 2rem);
+    border-radius: 50%;
+    overflow: hidden;
+    opacity: 0.15;
+    transition: all var(--transition-duration) ease;
+    box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+    flex: 0 0 auto;
+    text-decoration: none;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:hover {
+      opacity: 1;
+      transform: scale(var(--hover-scale)) !important;
+      z-index: 3;
+      transition: all 0.3s ease;
+    }
+  }
+
+  &__irregular-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--glow-size);
+    height: var(--glow-size);
+    filter: blur(var(--blur-radius));
+    pointer-events: none;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(
+        circle at center,
+        var(--glow-color, var(--glow-color-primary)) 0%,
+        transparent 70%
+      );
+      transform: translate(-50%, -50%);
+      animation: ripple 4s ease infinite;
+    }
+
+    &::after {
+      animation-delay: -1s;
+      background: radial-gradient(
+        circle at center,
+        var(--glow-color-secondary, var(--glow-color-secondary)) 0%,
+        transparent 70%
+      );
+    }
+  }
+
+  &--in-group {
+    position: relative;
+    
+    &:not(:last-child) {
+      margin-right: 24px;
+    }
+  }
+
+  &__connection {
+    position: absolute;
+    top: 50%;
+    right: -112px; // 半个连接宽度
+    transform: translateY(-50%);
+    width: 200px;
+    height: 100px;
+    filter: blur(30px);
+    pointer-events: none;
+    opacity: 0.6;
+    z-index: 0;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+}

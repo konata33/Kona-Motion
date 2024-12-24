@@ -1,0 +1,26 @@
+@class-prefix: ~'kona-luminous';
+
+.@{class-prefix} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &__image {
+    &-animated {
+      animation: glow 4s ease-in-out infinite alternate;
+    }
+  }
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(var(--glow-color), 0))
+           drop-shadow(0 0 12px rgba(var(--glow-color), 0))
+           drop-shadow(0 0 16px rgba(var(--glow-color), 0));
+  }
+  to {
+    filter: drop-shadow(0 0 12px rgba(var(--glow-color), 0.4))
+           drop-shadow(0 0 18px rgba(var(--glow-color), 0.5))
+           drop-shadow(0 0 24px rgba(var(--glow-color), 0.5));
+  }
+}

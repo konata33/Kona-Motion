@@ -1,0 +1,86 @@
+{
+  "name": "kona-motion",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/varlet.cjs.js",
+  "module": "es/index.mjs",
+  "typings": "types/index.d.ts",
+  "web-types": "highlight/web-types.en-US.json",
+  "keywords": [
+    "Vue",
+    "UI"
+  ],
+  "license": "MIT",
+  "sideEffects": [
+    "es/**/style/*",
+    "lib/**/style/*",
+    "es/style.mjs",
+    "lib/style.js",
+    "*.css"
+  ],
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
+    "dev": "varlet-cli dev",
+    "build": "varlet-cli build",
+    "preview": "varlet-cli preview",
+    "compile": "varlet-cli compile",
+    "lint": "varlet-cli lint",
+    "changelog": "varlet-cli changelog",
+    "release": "pnpm compile && varlet-cli release",
+    "test": "varlet-cli test",
+    "test:watch": "varlet-cli test -w",
+    "test:coverage": "varlet-cli test -cov",
+    "create": "varlet-cli create"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "devDependencies": {
+    "@varlet/cli": "^3.6.3",
+    "@varlet/eslint-config": "^3.6.3",
+    "@varlet/icons": "^3.6.3",
+    "@varlet/preset-unocss": "^3.7.0",
+    "@varlet/shared": "^3.6.3",
+    "@varlet/touch-emulator": "^3.6.3",
+    "@varlet/ui": "^3.6.3",
+    "@vitest/coverage-istanbul": "2.0.5",
+    "@vue/runtime-core": "3.4.21",
+    "@vue/test-utils": "2.4.1",
+    "clipboard": "^2.0.6",
+    "dotenv": "^16.4.7",
+    "eslint": "^8.43.0",
+    "jsdom": "24.1.1",
+    "lint-staged": "^10.5.0",
+    "live-server": "^1.2.1",
+    "prettier": "^2.8.8",
+    "simple-git-hooks": "^2.8.0",
+    "typescript": "^5.1.5",
+    "unocss": "^0.64.1",
+    "vitest": "2.0.5",
+    "vue": "3.4.21",
+    "vue-router": "4.2.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,vue,less}": "prettier --write",
+    "*.{ts,tsx,js,vue}": "eslint --fix"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged --allow-empty --concurrent false",
+    "commit-msg": "pnpm exec varlet-cli commit-lint -p $1"
+  },
+  "packageManager": "pnpm@9.1.1",
+  "engines": {
+    "pnpm": ">=9.0"
+  },
+  "files": [
+    "es",
+    "lib",
+    "umd",
+    "highlight",
+    "types"
+  ],
+  "dependencies": {
+    "extract-colors": "^4.1.0"
+  }
+}

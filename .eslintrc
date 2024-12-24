@@ -1,0 +1,16 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "lib/**",
+    "es/**",
+    "umd/**",
+    "site/**",
+    "public/**",
+    "src/*/__tests__/**",
+    "coverage/**",
+    "highlight/**",
+    "types/index.d.ts",
+    ".varlet/**"
+  ],
+  "extends": ["@varlet"]
+}
