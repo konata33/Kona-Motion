@@ -53,7 +53,7 @@ export default defineConfig({
       {
         text: {
           'zh-CN': '光效',
-          'en-US': 'Luminous Icon',
+          'en-US': 'Luminous',
         },
         doc: 'luminous',
         type: 2,

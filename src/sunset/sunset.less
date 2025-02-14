@@ -6,10 +6,22 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: #d6641fbf;
-  border-radius: 20px;
+  border-radius: 10px;
 
-  // 添加模糊边缘效果
+  --celestial-body-size: 2vmin;  
+  --celestial-body-glow: calc(var(--celestial-body-size) * 0.5);
+  --horizontal-position: clamp(18%, calc(10% + 15vw), 10%);  // 根据视窗宽度动态调整，但限制范围
+  --vertical-position: clamp(30%, calc(10% + 10vw), 30%); 
+
+  --sea-color-1: rgba(255, 140, 0, 0.2);
+  --sea-color-2: rgba(255, 69, 0, 0.4);
+  --sea-color-3: rgba(139, 37, 0, 0.8);
+  --sea-color-4: rgba(0, 0, 0, 0.9);
+  --wave-color: rgba(255, 69, 0, 0.1);
+  --glow-shadow: 
+    0 0 50px rgba(255, 69, 0, 0.3),
+    0 0 30px rgba(255, 140, 0, 0.2);
+
   &::before {
     content: '';
     position: absolute;
@@ -19,17 +31,8 @@
     bottom: -5px;
     background: inherit;
     border-radius: inherit;
-    filter: blur(5px);
+    filter: blur(3px);  
     z-index: 0;
-  }
-
-  &__background {
-    width: 60% !important;
-    height: auto !important;
-    max-height: 60% !important;
-    object-fit: contain !important;
-    position: relative;
-    z-index: 2;
   }
 
   &__glow {
@@ -40,14 +43,288 @@
     bottom: 0;
     z-index: 1;
     border-radius: inherit;
-    background: linear-gradient(
-      to top, 
-       #e0673b 15%,
-        #e7892d 35%, 
-        #d78e5d 55%,
-         #efac78 75%, 
-         #f3a862 85%,
-          #f6caa6 100%);
-    mix-blend-mode: inherit;
+    background-blend-mode: normal, normal, screen, overlay, normal;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    transition: background 2s ease;
+    background: radial-gradient(
+        ellipse farthest-side at 76% 77%, 
+        rgba(255, 255, 255, 0) 4%, 
+        rgba(255, 255, 255, 0) calc(4% + 1px)
+      ),
+      radial-gradient(
+        circle at 76% 40%, 
+        rgba(255, 255, 255, 0) 4%, 
+        rgba(255, 255, 255, 0) 4.18%
+      ),
+      linear-gradient(
+        135deg, 
+        #d74621 0%, 
+        #D74B22 100%
+      ),
+      radial-gradient(
+        ellipse at 28% 0%, 
+        #bd522e 0%, 
+        rgba(225, 86, 16, 0.796) 100%
+      ),
+      linear-gradient(
+        180deg, 
+        #d64926 0%, 
+        #e49883 60%, 
+        #d55734 65%, 
+        #e5562e 70%, 
+        rgb(174, 51, 14) 85%,
+        rgba(146, 43, 12, 0.8) 85%,
+        rgba(116, 34, 10, 0.9) 100%
+      );
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          var(--sea-color-1) 0%,
+          var(--sea-color-2) 30%,   
+          var(--sea-color-3) 65%,   
+          var(--sea-color-4) 100%
+        );
+        box-shadow: var(--glow-shadow);
+        z-index: 1;
+        animation: kona-sunset-wave 8s ease-in-out infinite;
+        backdrop-filter: blur(1.5px);
+        transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      opacity: 0.3;
+      background: repeating-linear-gradient(
+        35deg,
+        transparent,
+        var(--wave-color) 12px,
+        transparent 20px,
+        var(--wave-color) 28px
+      ),
+      repeating-linear-gradient(
+        -15deg,
+        transparent,
+        var(--wave-color) 15px,
+        transparent 25px,
+        var(--wave-color) 35px
+      );
+      background-size: 50px 50px;
+      z-index: 2;
+      animation: 
+        kona-sunset-horizontal-wave 6s linear infinite,
+        kona-sunset-wave 4s ease-in-out infinite;
+      transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &-night-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      background:linear-gradient(
+          180deg, 
+          #121747 0%, 
+          #20265c 40%, 
+          #2f3871 60%, 
+          #1d2241 70%, 
+          #1a1c43 85%,
+          #0b122f 100%
+        );
+    }
+  }
+
+  &__sun,
+  &__moon {
+    width: var(--celestial-body-size);
+    height: var(--celestial-body-size);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__sun {
+    position: absolute;
+    width: var(--celestial-body-size);
+    height: var(--celestial-body-size);
+    border-radius: 50%;
+    right: var(--horizontal-position);
+    top: var(--vertical-position);
+    max-width: 4rem;
+    max-height: 4rem;
+    background: radial-gradient(
+      circle at center,
+      #FEFA51 0%,
+      #FEFA51 20%,
+      #FEFA51 50%,
+      #FEFA51 100%
+    );
+    box-shadow: 
+      0 0 calc(var(--celestial-body-glow) * 2) #b6240e,
+      0 0 var(--celestial-body-glow) #b6240e,
+      0 0 calc(var(--celestial-body-glow) * 0.5) #b6240e;
+    transform-origin: 50% 500px; 
+    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at center,
+        #fff7e6 0%,
+        #ffdb4d 20%,
+        #ffa500 50%,
+        #ff4500 100%
+      );
+      opacity: 0.3;
+      top: var(--reflection-distance);
+      box-shadow: 
+        0 0 60px #ff450099,
+        0 0 30px #ff4500,
+        0 0 15px #ff8c00;
+        transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  &__moon {
+   position: absolute;
+    width: var(--celestial-body-size);
+    height: var(--celestial-body-size);
+    border-radius: 50%;
+    left: calc(20% - var(--horizontal-position));
+    top: var(--vertical-position);
+    background: #f5f5f5;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transform-origin: 50% 500px;
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at center,
+        #ffffff 0%,
+        #f5f5f5 20%,
+        #e0e0e0 50%,
+        #bdbdbd 100%
+      );
+      opacity: 0;
+      top: var(--reflection-distance);
+      box-shadow: 
+        0 0 60px rgba(255, 255, 255, 0.3),
+        0 0 30px rgba(255, 255, 255, 0.2);
+      transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  &--night {
+    --sea-color-1: rgba(25, 25, 112, 0.2);
+    --sea-color-2: rgba(25, 25, 112, 0.4);
+    --sea-color-3: rgba(0, 0, 139, 0.6);
+    --sea-color-4: rgba(0, 0, 0, 0.9);
+    --wave-color: rgba(135, 206, 235, 0.05); 
+    --glow-shadow: 
+      0 0 50px rgba(255, 255, 255, 0.1),
+      0 0 30px rgba(135, 206, 235, 0.1);
+
+    .@{class-prefix}__sun {
+      transform: rotate(30deg) translateY(100%); 
+      opacity: 0;
+      transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &::after {
+        opacity: 0;
+      }
+    }
+
+    .@{class-prefix}__moon {
+      opacity: 1;
+      transform: translate(calc(120% + 20px), -20px);
+      transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &::after {
+        opacity: 0.3; 
+      }
+    }
+
+    .@{class-prefix}__glow {
+      &-night-overlay {
+        opacity: 1;
+      }
+      &::after {
+        opacity: 0;
+        background: linear-gradient(
+          180deg,
+          var(--sea-color-1) 0%,
+          var(--sea-color-2) 20%,
+          var(--sea-color-3) 60%,
+          var(--sea-color-4) 100%
+        );
+        
+        box-shadow: var(--glow-shadow);
+      }
+
+      &::before {
+        opacity: 0.3; 
+        background: repeating-linear-gradient(
+          35deg,
+          transparent,
+          var(--wave-color) 8px,  
+          transparent 15px,      
+          var(--wave-color) 20px
+        ),
+        repeating-linear-gradient(
+          25deg, 
+          transparent,
+          var(--wave-color) 10px,
+          transparent 18px,
+          var(--wave-color) 25px
+        );
+        background-size: 35px 35px; 
+        animation: 
+          kona-sunset-horizontal-wave 8s linear infinite,  
+          kona-sunset-wave 4s ease-in-out infinite;     
+        transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  }
+}
+
+@keyframes kona-sunset-wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@keyframes kona-sunset-horizontal-wave {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(30px);
   }
 }
