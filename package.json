@@ -81,6 +81,9 @@
     "types"
   ],
   "dependencies": {
-    "extract-colors": "^4.1.0"
+    "@lottiefiles/dotlottie-vue": "^0.6.1",
+    "extract-colors": "^4.1.0",
+    "motion-v": "1.0.0-beta.1",
+    "vue3-lottie": "^3.3.1"
   }
 }

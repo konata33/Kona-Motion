@@ -60,12 +60,11 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': '日落',
-          'en-US': 'Sunset',
+          'zh-CN': '对话框',
+          'en-US': 'Dialog',
         },
-        doc: 'sunset',
-        type: 2,
-      },
+        doc: 'dialog',
+      }
     ],
   },
 })

@@ -7,7 +7,7 @@
 ## 基础用法
 
 ```html
-<Card title="CREATOR" name="Konata" icon="https://avatars.githubusercontent.com/u/22515951?v=4" />
+<Dialog />
 ```
 
 ## API
@@ -23,5 +23,5 @@
 ## 示例
 
 ```vue
-import Card from '../example/index'
+import Dialog from '../example/index'
 ```
